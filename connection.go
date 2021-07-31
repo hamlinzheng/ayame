@@ -78,11 +78,7 @@ func (c *connection) sendAcceptMessage(isExistClient bool, iceServers *[]iceServ
 		// 下位互換性
 		IsExistUser:   isExistClient,
 		AuthzMetadata: authzMetadata,
-		IceServers:    {
-			"urls": ["turn:hamlinzheng.com:3478"],
-			"username": "hamlin",
-			"credential":"qweqwe",
-		},
+		IceServers:    iceServers,
 	}
 
 	if err := c.SendJSON(msg); err != nil {
