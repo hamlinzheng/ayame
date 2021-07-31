@@ -71,6 +71,30 @@ func (c *connection) sendCloseMessage(code int, reason string) error {
 }
 
 func (c *connection) sendAcceptMessage(isExistClient bool, iceServers *[]iceServer, authzMetadata *interface{}) error {
+	var url string = "stun:stun.l.google.com:19302"
+	var name string = ""
+	var pass string = ""
+	// ice := iceServer{
+	// 	Urls:       []string{url},
+	// 	UserName:   &name,
+	// 	Credential: &pass,
+	// }
+	// iceServers = &[]iceServer{ice}
+	if config.TurnServerUrl != "" {
+		url = config.TurnServerUrl
+	}
+	if config.TurnServerUser != "" {
+		name = config.TurnServerUser
+	}
+	if config.TurnServerPass != "" {
+		pass = config.TurnServerPass
+	}
+	ice := iceServer{
+		Urls:       []string{url},
+		UserName:   &name,
+		Credential: &pass,
+	}
+	iceServers = &[]iceServer{ice}
 	msg := &acceptMessage{
 		Type:          "accept",
 		ConnectionID:  c.ID,
@@ -78,11 +102,7 @@ func (c *connection) sendAcceptMessage(isExistClient bool, iceServers *[]iceServ
 		// 下位互換性
 		IsExistUser:   isExistClient,
 		AuthzMetadata: authzMetadata,
-		IceServers:  {
-			"urls": ["turn:hamlinzheng.com:3478"]
-			"username": "hamlin"
-			"credential":"qweqwe"
-		},
+		IceServers:    iceServers,
 	}
 
 	if err := c.SendJSON(msg); err != nil {
