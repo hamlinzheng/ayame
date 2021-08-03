@@ -18,6 +18,10 @@ type ayameConfig struct {
 	ListenIPv4Address string `yaml:"listen_ipv4_address"`
 	ListenPortNumber  int    `yaml:"listen_port_number"`
 
+	TurnServerUrl  string `yaml:"turnserver_url"`
+	TurnServerUser string `yaml:"turnserver_user"`
+	TurnServerPass string `yaml:"turnserver_pass"`
+
 	AuthnWebhookURL      string `yaml:"authn_webhook_url"`
 	DisconnectWebhookURL string `yaml:"disconnect_webhook_url"`
 
